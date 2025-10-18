@@ -33,9 +33,23 @@
     <ul class="tabs tabs-transparent">
       <li class="tab"><a href="#movie" class="active">FULL Movies</a></li>
       <li class="tab"><a href="#accion">Acción</a></li>
+      <li class="tab"><a href="#animacion">Animación</a></li>
       <li class="tab"><a href="#aventura">Aventura</a></li>
+      <li class="tab"><a href="#belica">Bélica</a></li>
       <li class="tab"><a href="#cienciaficcion">Ciencia Ficción</a></li>
+      <li class="tab"><a href="#comedia">Comedia</a></li>
+      <li class="tab"><a href="#crimen">Crimen</a></li>
+      <li class="tab"><a href="#documental">Documental</a></li>
+      <li class="tab"><a href="#drama">Drama</a></li>
+      <li class="tab"><a href="#familia">Familia</a></li>
       <li class="tab"><a href="#fantasia">Fantasía</a></li>
+      <li class="tab"><a href="#historia">Historia</a></li>
+      <li class="tab"><a href="#misterio">Misterio</a></li>
+      <li class="tab"><a href="#peliculadetv">Película de TV</a></li>
+      <li class="tab"><a href="#romance">Romance</a></li>
+      <li class="tab"><a href="#suspense">Suspense</a></li>
+      <li class="tab"><a href="#terror">Terror</a></li>
+      <li class="tab"><a href="#western">Western</a></li>
     </ul>
   </div>
 </nav>
@@ -55,31 +69,69 @@
   <li><a href="go:seriehome"><span class="material-icons">live_tv</span> Series</a></li>
   <li><a href="#!"><span class="material-icons">theaters</span> Novelas</a></li>
 </ul>
-
+<br>
+<br>
+<br>
 <!-- SECCIONES -->
 <div class="each-category">
-
-  <!--INICIO DE SECCION-->
+  <!-- INICIO DE SECCIÓN -->
   <div id="movie" class="row padDrew">
     <ul id="busquedas-movie" class="row padDrew"></ul>
   </div>
-
   <div id="accion" class="row padDrew">
     <ul id="busquedas-accion" class="row padDrew"></ul>
   </div>
-
+  <div id="animacion" class="row padDrew">
+    <ul id="busquedas-animacion" class="row padDrew"></ul>
+  </div>
   <div id="aventura" class="row padDrew">
     <ul id="busquedas-aventura" class="row padDrew"></ul>
   </div>
-
+  <div id="belica" class="row padDrew">
+    <ul id="busquedas-belica" class="row padDrew"></ul>
+  </div>
   <div id="cienciaficcion" class="row padDrew">
     <ul id="busquedas-cienciaficcion" class="row padDrew"></ul>
   </div>
-
+  <div id="comedia" class="row padDrew">
+    <ul id="busquedas-comedia" class="row padDrew"></ul>
+  </div>
+  <div id="crimen" class="row padDrew">
+    <ul id="busquedas-crimen" class="row padDrew"></ul>
+  </div>
+  <div id="documental" class="row padDrew">
+    <ul id="busquedas-documental" class="row padDrew"></ul>
+  </div>
+  <div id="drama" class="row padDrew">
+    <ul id="busquedas-drama" class="row padDrew"></ul>
+  </div>
+  <div id="familia" class="row padDrew">
+    <ul id="busquedas-familia" class="row padDrew"></ul>
+  </div>
   <div id="fantasia" class="row padDrew">
     <ul id="busquedas-fantasia" class="row padDrew"></ul>
   </div>
-
+  <div id="historia" class="row padDrew">
+    <ul id="busquedas-historia" class="row padDrew"></ul>
+  </div>
+  <div id="misterio" class="row padDrew">
+    <ul id="busquedas-misterio" class="row padDrew"></ul>
+  </div>
+  <div id="peliculadetv" class="row padDrew">
+    <ul id="busquedas-peliculadetv" class="row padDrew"></ul>
+  </div>
+  <div id="romance" class="row padDrew">
+    <ul id="busquedas-romance" class="row padDrew"></ul>
+  </div>
+  <div id="suspense" class="row padDrew">
+    <ul id="busquedas-suspense" class="row padDrew"></ul>
+  </div>
+  <div id="terror" class="row padDrew">
+    <ul id="busquedas-terror" class="row padDrew"></ul>
+  </div>
+  <div id="western" class="row padDrew">
+    <ul id="busquedas-western" class="row padDrew"></ul>
+  </div>
 </div>
 
 <!-- SCRIPTS -->
@@ -91,9 +143,23 @@ document.addEventListener("DOMContentLoaded", function() {
   const categorias = {
     movie: "movie",
     accion: "accion",
+    animacion: "animacion",
     aventura: "aventura",
+    belica: "belica",
     cienciaficcion: "cienciaficcion",
-    fantasia: "fantasia"
+    comedia: "comedia",
+    crimen: "crimen",
+    documental: "documental",
+    drama: "drama",
+    familia: "familia",
+    fantasia: "fantasia",
+    historia: "historia",
+    misterio: "misterio",
+    peliculadetv: "peliculadetv",
+    romance: "romance",
+    suspense: "suspense",
+    terror: "terror",
+    western: "western"
   };
 
   // Recorremos cada categoría
@@ -101,18 +167,28 @@ document.addEventListener("DOMContentLoaded", function() {
     const url = `https://raw.githubusercontent.com/Leoshin123/exp/main/Categorias/${folder}/index.html`;
 
     fetch(url)
-      .then(response => response.text())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.text();
+      })
       .then(html => {
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, "text/html");
         const articulos = doc.querySelectorAll("article");
         const ul = document.querySelector(`#busquedas-${id}`);
 
+        if (!ul) {
+          console.error(`No se encontró el elemento ul con id: busquedas-${id}`);
+          return;
+        }
+
         articulos.forEach(article => {
           const enlace = article.querySelector("a");
           const img = article.querySelector("img");
 
-          // Buscar título en el div correspondiente
+          // Buscar título
           let titulo = article.querySelector(".mt-2.font-semibold.text-sm.leading-tight.truncate");
           let tituloTexto = titulo ? titulo.textContent.trim() : "";
 
@@ -133,78 +209,339 @@ document.addEventListener("DOMContentLoaded", function() {
           // Agregar al listado
           if (enlace && img) {
             const li = document.createElement("li");
+            li.classList.add("col", "s4", "m3", "l2"); // Ensure grid classes are on <li>
             li.innerHTML = `
-              <a href="${enlace.href}" class="col s4 m3 l2">
-                <img src="${img.src}" alt="poster">
-                <span>${tituloTexto || "Sin título"} ${añoTexto}</span>
+              <a href="${enlace.href}" class="movie-card">
+                <div class="image-container">
+                  <img src="${img.src}" alt="poster" class="responsive-img">
+                </div>
+                <span class="title">${tituloTexto || "Sin título"} ${añoTexto}</span>
               </a>
             `;
             ul.appendChild(li);
           }
         });
       })
-      .catch(err => console.error("Error cargando", folder, err));
+      .catch(err => {
+        console.error(`Error cargando categoría ${folder}:`, err);
+        const ul = document.querySelector(`#busquedas-${id}`);
+        if (ul) {
+          const li = document.createElement("li");
+          li.classList.add("col", "s12");
+          li.innerHTML = `<p class="white-text center">Error al cargar contenido de ${folder}. Por favor, intenta de nuevo más tarde.</p>`;
+          ul.appendChild(li);
+        }
+      });
   });
 });
 
-// Filtro de búsqueda
+// Filtro de búsqueda ignorando tildes
 function myFunction() {
-  var input = document.getElementById("buscar");
-  var filter = input.value.toUpperCase();
-  var allLists = document.querySelectorAll("ul[id^='busquedas']");
-  
+  const input = document.getElementById("buscar");
+  // Normalizamos y eliminamos tildes
+  const filter = input.value
+                      .normalize("NFD")
+                      .replace(/[\u0300-\u036f]/g, "")
+                      .toUpperCase();
+
+  const allLists = document.querySelectorAll("ul[id^='busquedas']");
+
   allLists.forEach(ul => {
-    var li = ul.getElementsByTagName("li");
-    for (var i = 0; i < li.length; i++) {
-      var a = li[i].getElementsByTagName("a")[0];
-      var txtValue = a.textContent || a.innerText;
+    const li = ul.getElementsByTagName("li");
+    for (let i = 0; i < li.length; i++) {
+      const a = li[i].getElementsByTagName("a")[0];
+      // Normalizamos el texto también
+      const txtValue = a.textContent
+                        .normalize("NFD")
+                        .replace(/[\u0300-\u036f]/g, "");
       if (txtValue.toUpperCase().indexOf(filter) > -1) {
         li[i].style.display = "";
-        li[i].classList.add('animation');
+        li[i].classList.add("animation");
       } else {
         li[i].style.display = "none";
-        li[i].classList.remove('animation');
+        li[i].classList.remove("animation");
       }
     }
   });
 }
+
 </script>
 
 <!-- ESTILOS -->
 <style>
-.tabs .tab a:focus, .tabs .tab a:focus.active {background:none}
-.col img {width:100%;border-radius:5px;margin-bottom:5px}
-.padDrew {padding:0px 0;margin:50px 0}
-.sidenav li {transition:background ease .2s}
-.row .col {padding:0 5px}
-.each-category {padding:0 5px}
-.sidenav li>a {margin:0 10px;background:#212121;color:rgb(222,215,215);border-radius:3px;display:flex;align-items:center;gap:10px;padding:0 10px}
-#nav-mobile a.active-sidenav, .sidenav li>a.active-sidenav {background:rgba(60,128,85,.2);color:#20bf6b}
-#nav-mobile a {font-weight:600}
-.buscador {float:right;margin:0 18px;z-index:1}
-@media screen and (min-width:991px){nav .brand-logo{margin:0 10px}}
-@media only screen and (max-width:992px){nav .brand-logo{left:110px}}
-.tab a, .sidenav li a {font-weight:600}
-img.circle {border-radius:100%;overflow:hidden}
-.banner {display:flex;gap:10px;padding:10px;background:rgb(20,20,20)}
-.sidenav li {line-height:0}
-* {list-style-type:none}
-ul#nav-mobile {z-index:1;position:relative;margin-right:58px}
-.containerb {position:absolute;margin:auto;top:0;right:0;bottom:0;height:100px;width:100%}
-.containerb .search {position:absolute;margin:auto;top:0;right:0;bottom:0;width:50px;height:50px;background:crimson;border-radius:50%;transition:all 1s;z-index:4;box-shadow:0 0 25px 0 rgba(0,0,0,0.4)}
-.containerb .search:hover {cursor:pointer}
-.containerb .search::before {content:"";position:absolute;margin:auto;top:18px;right:0;bottom:0;left:17px;width:12px;height:2px;background:white;transform:rotate(45deg);transition:all .5s}
-.containerb .search::after {content:"";position:absolute;margin:auto;top:-5px;right:0;bottom:0;left:-5px;width:20px;height:20px;border-radius:50%;border:2px solid white;transition:all .5s}
-.containerb input {position:absolute;margin:auto!important;top:0;right:0;bottom:0;width:50px!important;height:50px!important;background:crimson;color:white;transition:all 0.7s!important;padding:0 5px 0 20px!important;opacity:0;z-index:5}
-.containerb input:hover {cursor:pointer}
-.containerb input:focus {width:100%!important;opacity:1;left:0;cursor:text;background:#4d4d4d;color:#e3e3e3}
-.containerb input:focus ~ .search {background:#151515;z-index:6}
-.containerb input:focus ~ .search::before {top:0;left:0;width:25px}
-.containerb input:focus ~ .search::after {top:0;left:0;width:25px;height:2px;border:none;background:white;border-radius:0%;transform:rotate(-45deg)}
-.containerb input::placeholder {color:white;opacity:0.5;font-weight:bolder}
-.each-category span {display:block;color:white;text-align:center;font-size:12px;margin-top:3px}
+/* ===================== General ===================== */
+* {
+  list-style-type: none;
+  box-sizing: border-box;
+}
+
+img.circle {
+  border-radius: 100%;
+  overflow: hidden;
+}
+
+/* ===================== Movie Card Styling ===================== */
+.each-category ul {
+  
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+}
+
+.each-category li {
+  padding: 5px;
+  height: 300px; /* Fixed height for each card */
+  display: flex;
+  align-items: stretch;
+}
+
+.movie-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+}
+
+.image-container {
+  width: 100%;
+  height: 80%; /* Image takes most of the card height */
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensure images scale uniformly */
+  object-position: center;
+  border-radius: 5px;
+}
+
+.movie-card .title {
+  display: block;
+  color: white;
+  text-align: center;
+  font-size: 12px;
+  margin-top: 5px;
+  height: auto;           /* Ajusta la altura automáticamente */
+  white-space: nowrap;    /* Evita que el texto haga salto de línea */
+  overflow: hidden;       /* Oculta el texto que se sale del contenedor */
+  text-overflow: ellipsis;/* Muestra "..." al final si es muy largo */
+}
+
+
+/* ===================== Tabs ===================== */
+.tabs .tab a:focus,
+.tabs .tab a:focus.active {
+  background: none;
+}
+
+.tab a,
+.sidenav li a {
+  font-weight: 600;
+}
+
+/* ===================== Sidenav ===================== */
+.sidenav li {
+  transition: background ease 0.2s;
+  line-height: 0;
+}
+
+.sidenav li > a {
+  margin: 0 10px;
+  background: #212121;
+  color: rgb(222, 215, 215);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 10px;
+}
+
+#nav-mobile a {
+  font-weight: 600;
+}
+
+#nav-mobile a.active-sidenav,
+.sidenav li > a.active-sidenav {
+  background: rgba(60, 128, 85, 0.2);
+  color: #20bf6b;
+}
+
+/* ===================== Banner ===================== */
+.banner {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  background: rgb(20, 20, 20);
+}
+
+/* ===================== Buscador ===================== */
+.buscador {
+  float: right;
+  margin: 0 18px;
+  z-index: 1;
+}
+
+.containerb {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  height: 100px;
+  width: 100%;
+}
+
+.containerb .search {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 50px;
+  height: 50px;
+  background: crimson;
+  border-radius: 50%;
+  transition: all 1s;
+  z-index: 4;
+  box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.4);
+}
+
+.containerb .search:hover {
+  cursor: pointer;
+}
+
+.containerb .search::before {
+  content: "";
+  position: absolute;
+  margin: auto;
+  top: 18px;
+  right: 0;
+  bottom: 0;
+  left: 17px;
+  width: 12px;
+  height: 2px;
+  background: white;
+  transform: rotate(45deg);
+  transition: all 0.5s;
+}
+
+.containerb .search::after {
+  content: "";
+  position: absolute;
+  margin: auto;
+  top: -5px;
+  right: 0;
+  bottom: 0;
+  left: -5px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid white;
+  transition: all 0.5s;
+}
+
+.containerb input {
+  position: absolute;
+  margin: auto !important;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 50px !important;
+  height: 50px !important;
+  background: crimson;
+  color: white;
+  transition: all 0.7s !important;
+  padding: 0 5px 0 20px !important;
+  opacity: 0;
+  z-index: 5;
+}
+
+.containerb input:hover {
+  cursor: pointer;
+}
+
+.containerb input:focus {
+  width: 100% !important;
+  opacity: 1;
+  left: 0;
+  cursor: text;
+  background: #4d4d4d;
+  color: #e3e3e3;
+}
+
+.containerb input:focus ~ .search {
+  background: #151515;
+  z-index: 6;
+}
+
+.containerb input:focus ~ .search::before {
+  top: 0;
+  left: 0;
+  width: 25px;
+}
+
+.containerb input:focus ~ .search::after {
+  top: 0;
+  left: 0;
+  width: 25px;
+  height: 2px;
+  border: none;
+  background: white;
+  border-radius: 0%;
+  transform: rotate(-45deg);
+}
+
+.containerb input::placeholder {
+  color: white;
+  opacity: 0.5;
+  font-weight: bolder;
+}
+
+/* ===================== Responsivo ===================== */
+@media screen and (min-width: 991px) {
+  nav .brand-logo {
+    margin: 0 10px;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  nav .brand-logo {
+    left: 110px;
+  }
+}
+/* ===================== Responsivo para móviles ===================== */
+@media only screen and (max-width: 600px) {
+  .each-category li {
+    flex: 0 0 33.33%; /* Cada li ocupa un tercio del ancho */
+    max-width: 33.33%;
+    height: auto; /* Ajusta altura automáticamente */
+  }
+
+  .movie-card {
+    height: auto; /* Permite que la tarjeta se adapte al contenido */
+  }
+
+  .image-container {
+    height: 150px; /* Altura fija para poster en móviles */
+  }
+
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* No estira la imagen, respeta proporción */
+  }
+
+  .movie-card .title {
+    font-size: 10px;
+    height: auto;
+    margin-top: 3px;
+  }
+}
+
 </style>
 
 </body>
 </html>
-
