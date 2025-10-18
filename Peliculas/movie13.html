@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+<title>Anaconda 2: En busca de la orquídea sangrienta</title>
+<style>
+html { min-height: 100%; position: relative; }
+body {
+  background-color: #000;
+  font-family: 'Roboto Condensed', sans-serif;
+  color: #fff;
+  margin: 0 0 70px 0;
+  padding: 0!important;
+  height: 100%;
+  display: inline-block;
+  width: 100%;
+  width: -moz-available;
+  width: -webkit-fill-available;
+  width: fill-available;
+}
+.Wallpaper {
+  padding: 0 0 30% 0;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-color: #181821;
+  border-radius: 5px;
+}
+.ConjuntoHeadCont { width: 100%; position: relative; z-index: 1; }
+.SingleHead {
+  float: left;
+  width: 120px;
+  margin: -85px 25px 0 15px;
+  overflow: hidden;
+  background: #06060882;
+  background-color: #08090c;
+  background-image: url(../img/lazyload.gif);
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: 40px;
+  box-shadow: 0 5px 30px 3px #00000069;
+  height: 175px;
+  position: relative;
+  border-radius: 4px;
+}
+.SingleHead img { width: 100%; }
+.SingleContent {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: center;
+  box-sizing: border-box;
+  margin: -45px 0 0 0;
+}
+.SingleContent h1 {
+  margin: 0;
+  font-weight: 300;
+  font-size: 35px;
+  color: #fff;
+  line-height: 30px;
+  text-shadow: 1px 1px 1px #00000096;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+  top: -10px;
+  padding: 0 10px 0 0;
+  text-transform: capitalize;
+}
+.MovieInfo {
+  margin-left: 15px;
+  margin-top: 10px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+.MovieInfo b span { color: #F44336; }
+.MovieInfo span { color: #b3b3b3; }
+.Sinopsis { margin: 15px; color: #b3b3b3; line-height: 1.6; }
+@media screen and (max-width:600px) {
+  .SingleContent h1 { font-size: 27px; top: 0; }
+  .Wallpaper { padding: 0 0 45% 0; }
+  .SingleHead { width: 90px; margin: -55px 20px 0 15px; height: 130px; }
+  .MovieInfo { margin-left: 125px; font-size: 14px; }
+}
+@media screen and (max-width:380px) {
+  .SingleContent h1 { font-size: 20px; top: 5px; }
+  .Wallpaper { padding: 0 0 55% 0; }
+  .MovieInfo { text-align: left; font-size: 13px; }
+}
+</style>
+</head>
+<body>
+  <div class="Wallpaper" style="background-image: linear-gradient(rgba(41,128,185,0), rgb(0,0,0)), url(https://image.tmdb.org/t/p/original/2zg3nm55gMUi5lFzCdXMjnYJjS9.jpg);"></div>
+  <div class="ConjuntoHeadCont">
+    <div class="SingleHead">
+      <img src="https://image.tmdb.org/t/p/original/sO7PK08LkIXluGjqFvvU1jWjmVV.jpg" alt="" title="">
+    </div>
+    <div class="SingleContent">
+      <h1>Anaconda 2: En busca de la orquídea sangrienta</h1>
+    </div>
+  </div>
+  <div class="MovieInfo">
+    <b><span>Año:</span></b> <span>2004</span><br>
+    <b><span>Género:</span></b> <span>Aventura, Terror, Suspense</span><br>
+    <b><span>Duración:</span></b> <span>96 Minutos</span><br>
+  </div>
+  <div style="text-align:center; margin-top:20px;">
+    <div id="btnReproducir" style="
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: #fff;
+      color: #000;
+      padding: 12px 30px;
+      font-weight: bold;
+      font-family: sans-serif;
+      cursor: pointer;
+      border: none;
+      text-transform: uppercase;
+      font-size: 16px;
+      border-radius: 0;
+    ">
+      <i class="fas fa-play"></i> Reproducir
+    </div>
+  </div>
+  <div id="videoModal" style="
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.85);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  ">
+    <div id="modalContent" style="
+      position: relative;
+      width: 90%;
+      max-width: 900px;
+      height: 40%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    ">
+      <iframe id="videoFrame" src="https://lzrdrz10.github.io/repro/player.html?video=aHR0cHM6Ly8xYS0xNzkxLmNvbS92aWRlby9md3cxLzcyL3M4LzIvZS9tL1IvdS9lbVJ1eS5hYWEubXA0&poster=aHR0cHM6Ly9pbWFnZS50bWRiLm9yZy90L3Avb3JpZ2luYWwvMnpnM25tNTVnTVVpNWxGekNkWE1qbllKalM5LmpwZw==&title=QW5hY29uZGEgMjogRW4gYnVzY2EgZGUgbGEgb3JxdcOtZGVhIHNhbmdyaWVudGE=" style="
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-radius: 0;
+      " allowfullscreen></iframe>
+    </div>
+  </div>
+  <div style="text-align:center; margin-top:15px;">
+    <div id="download-btn" data-url="https://1a-1791.com/video/fww1/72/s8/2/e/m/R/u/emRuy.aaa.mp4" style="
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: #fff;
+      color: #000;
+      padding: 12px 30px;
+      font-weight: bold;
+      font-family: sans-serif;
+      cursor: pointer;
+      border: none;
+      text-transform: uppercase;
+      font-size: 16px;
+      border-radius: 0;
+    ">
+      <i class="fas fa-download"></i> Descargar
+    </div>
+  </div>
+  <div class="Sinopsis">
+    <span style="color: #F44336;">Sinopsis:</span><p><span>La orquídea sangrienta: una flor rara que guarda el secreto de la vida eterna y una fortuna para la compañía farmacéutica que la encuentra. Dirigido por un soldado de fortuna con dos puños, se envía una expedición científica a las selvas de Borneo para localizar y traer muestras de la legendaria planta. Luchando río arriba, los exploradores se enfrentan a valientes insectos venenosos, cocodrilos feroces y cazadores de cabezas salvajes, sin darse cuenta de que los acecha un peligro aún mayor: un nido de anacondas gigantes, voraces comedores de carne de cincuenta pies de largo que se detendrán nada para proteger su caldo de cultivo, el hogar de las orquídeas de sangre.</span></p>
+  </div>
+  <script>
+    var btn = document.getElementById("btnReproducir");
+    var modal = document.getElementById("videoModal");
+    var frame = document.getElementById("videoFrame");
+    btn.onclick = function() { modal.style.display = "flex"; }
+    window.onclick = function(e) {
+      if (e.target == modal) {
+        modal.style.display = "none";
+        frame.src = frame.src;
+      }
+    }
+    var downloadBtn = document.getElementById('download-btn');
+    downloadBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      var altURL = downloadBtn.getAttribute('data-url') || '';
+      var cleanAltURL = altURL.replace('https://', '').replace('http://', '');
+      var plusIntent = 'intent://' + cleanAltURL + '#Intent;package=idm.internet.download.manager.plus;scheme=https;end';
+      var normalIntent = 'intent://' + cleanAltURL + '#Intent;package=idm.internet.download.manager;scheme=https;end';
+      window.location.href = plusIntent;
+      setTimeout(function() { window.location.href = normalIntent; }, 1000);
+    });
+  </script>
+</body>
+</html>
