@@ -1,188 +1,209 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LZ - Películas</title>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-  <style>
-    body { background: #121212; color: white; }
-    nav { box-shadow: none; }
-    .brand-logo { font-weight: bold; }
-    .sidenav { background: #1c1c1c; }
-    .sidenav li>a { color: #e0e0e0; font-weight: 600; }
-    .sidenav li>a.active-sidenav { background: rgba(60,128,85,.2); color: #20bf6b; }
-    .banner { display: flex; align-items: center; padding: 15px; background: #181818; }
-    .banner img { border-radius: 50%; width: 64px; height: 64px; }
-    .banner h4 { margin-left: 10px; }
-
-    /* Buscador */
-    .containerb { position: absolute; right: 15px; top: 10px; width: 50px; height: 50px; }
-    .containerb input {
-      position: absolute; width: 50px; height: 50px;
-      background: crimson; color: white;
-      border: none; border-radius: 50%;
-      padding: 0 20px; transition: all 0.5s; opacity: 0;
-    }
-    .containerb input:focus {
-      width: 250px; opacity: 1; border-radius: 5px; background: #333;
-    }
-    .containerb .search {
-      width: 50px; height: 50px; background: crimson;
-      border-radius: 50%; display: flex; align-items: center;
-      justify-content: center; cursor: pointer; z-index: 2;
-    }
-    .containerb .search i { color: white; }
-
-    /* Películas */
-    .padDrew { padding: 20px 10px; }
-    .col img { width: 100%; border-radius: 6px; }
-    .tabs .tab a { font-weight: 600; }
-    .each-category span { display: none; }
-    .carousel-item ul { display: flex; gap: 10px; overflow-x: auto; padding: 10px; }
-    .carousel-item ul li { flex: 0 0 auto; width: 160px; }
-    .carousel { height: auto; }
-    .animation { animation: fadeIn 0.4s ease-in; }
-    @keyframes fadeIn { from {opacity:0; transform:scale(.9);} to {opacity:1; transform:scale(1);} }
-  </style>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<!-- Compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<title>Películas - Plantillas Plus</title>
 </head>
-<body>
+<body class="grey darken-4">
 
-  <!-- Navbar -->
-  <div class="navbar-fixed">
-    <nav class="black">
-      <div class="nav-wrapper">
-        <a href="#" class="brand-logo">LZ</a>
-        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-          <li><a class="active-sidenav" href="#!">Películas</a></li>
-          <li><a href="go:seriehome">Series</a></li>
-          <li><a href="#!">Novelas</a></li>
-        </ul>
-
-        <!-- Buscador -->
-        <div class="containerb">
-          <input type="text" id="buscar" placeholder="Buscar..." onkeyup="buscarPeliculas()">
-          <div class="search" onclick="document.getElementById('buscar').focus();">
-            <i class="material-icons">search</i>
-          </div>
-        </div>
-      </div>
-
-      <div class="nav-content">
-        <ul class="tabs tabs-transparent" id="genre-tabs"></ul>
-      </div>
-    </nav>
+<!-- NAV -->
+<div class="navbar-fixed">
+<nav class="nav-extended black">
+  <div class="nav-wrapper">
+    <a href="#" class="brand-logo">Películas</a>
+    <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <li><a href="#!" class="active-sidenav">Películas</a></li>
+      <li><a href="go:seriehome">Series</a></li>
+      <li><a href="#!">Novelas</a></li>
+    </ul>
+    <div class="containerb">
+      <input type="text" placeholder="Buscar..." id="buscar" onkeyup="myFunction()">
+      <div class="search"></div>
+    </div>
   </div>
 
-  <!-- Sidenav -->
-  <ul class="sidenav" id="mobile-demo">
-    <li class="banner">
-      <img src="https://plantillasplus.com/wp-content/uploads/2024/06/nuevologotipo-pp-150x150.png">
-      <h4>LZ</h4>
-    </li>
-    <li><a class="active-sidenav" href="#!"><i class="material-icons">movie</i> Películas</a></li>
-    <li><a href="go:seriehome"><i class="material-icons">live_tv</i> Series</a></li>
-    <li><a href="#!"><i class="material-icons">theaters</i> Novelas</a></li>
-  </ul>
-
-  <!-- Contenido -->
-  <div class="each-category">
-    <div id="carousel-container"></div>
-    <ul id="busquedas" class="row padDrew" style="display:none">
-      <li>
-        <a href="go:peli" class="col s4 m3 l2">
-          <img src="https://image.tmdb.org/t/p/w500//9TFSqghEHrlBMRR63yTx80Orxva.jpg">
-          <span class="titulo">Deadpool y Wolverine</span>
-          <span class="generos">Acción, Comedia, Aventura</span>
-        </a>
-      </li>
-      <li>
-        <a href="go:peli2" class="col s4 m3 l2">
-          <img src="https://image.tmdb.org/t/p/w500//pA3vdhadJPxF5GA1uo8OPTiNQDT.jpg">
-          <span class="titulo">Duna: Parte 2</span>
-          <span class="generos">Ciencia Ficción, Aventura</span>
-        </a>
-      </li>
-      <li>
-        <a href="go:peli3" class="col s4 m3 l2">
-          <img src="https://image.tmdb.org/t/p/w500//1E5baAaEse26fej7uHcjOgEE2t2.jpg">
-          <span class="titulo">Godzilla Minus One</span>
-          <span class="generos">Acción, Drama, Ciencia Ficción</span>
-        </a>
-      </li>
+  <div class="nav-content">
+    <ul class="tabs tabs-transparent">
+      <li class="tab"><a href="#movie" class="active">FULL Movies</a></li>
+      <li class="tab"><a href="#accion">Acción</a></li>
+      <li class="tab"><a href="#aventura">Aventura</a></li>
+      <li class="tab"><a href="#cienciaficcion">Ciencia Ficción</a></li>
+      <li class="tab"><a href="#fantasia">Fantasía</a></li>
     </ul>
   </div>
+</nav>
+</div>
 
-  <!-- Scripts -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      M.AutoInit();
-      generarCarruseles();
-    });
+<!-- SIDENAV -->
+<ul class="sidenav grey darken-4" id="mobile-demo">
+  <li class="row banner">
+    <div class="col s4">
+      <img src="https://plantillasplus.com/wp-content/uploads/2024/06/nuevologotipo-pp-150x150.png" alt="" class="responsive-img circle">
+    </div>
+    <div class="col s8">
+      <h4 class="white-text">PlantillasPlus!</h4>
+    </div>
+  </li>
+  <li><a class="active-sidenav" href="#!"><span class="material-icons">movie</span> Películas</a></li>
+  <li><a href="go:seriehome"><span class="material-icons">live_tv</span> Series</a></li>
+  <li><a href="#!"><span class="material-icons">theaters</span> Novelas</a></li>
+</ul>
 
-    // Genera un carrusel por cada género automáticamente
-    function generarCarruseles() {
-      const lista = document.querySelectorAll('#busquedas li');
-      const generos = new Set();
-      lista.forEach(li => {
-        const gs = li.querySelector('.generos').textContent.split(',');
-        gs.forEach(g => generos.add(g.trim()));
-      });
+<!-- SECCIONES -->
+<div class="each-category">
 
-      const contenedor = document.getElementById('carousel-container');
-      contenedor.innerHTML = '';
+  <!--INICIO DE SECCION-->
+  <div id="movie" class="row padDrew">
+    <ul id="busquedas-movie" class="row padDrew"></ul>
+  </div>
 
-      generos.forEach(genre => {
-        const seccion = document.createElement('div');
-        seccion.className = 'section';
+  <div id="accion" class="row padDrew">
+    <ul id="busquedas-accion" class="row padDrew"></ul>
+  </div>
 
-        const titulo = document.createElement('h5');
-        titulo.textContent = genre;
-        titulo.style.marginLeft = '15px';
-        seccion.appendChild(titulo);
+  <div id="aventura" class="row padDrew">
+    <ul id="busquedas-aventura" class="row padDrew"></ul>
+  </div>
 
-        const carousel = document.createElement('div');
-        carousel.className = 'carousel';
-        seccion.appendChild(carousel);
+  <div id="cienciaficcion" class="row padDrew">
+    <ul id="busquedas-cienciaficcion" class="row padDrew"></ul>
+  </div>
 
-        lista.forEach(li => {
-          const gs = li.querySelector('.generos').textContent;
-          if (gs.includes(genre)) {
-            const clone = li.cloneNode(true);
-            const div = document.createElement('div');
-            div.className = 'carousel-item';
-            div.appendChild(clone.querySelector('a'));
-            carousel.appendChild(div);
+  <div id="fantasia" class="row padDrew">
+    <ul id="busquedas-fantasia" class="row padDrew"></ul>
+  </div>
+
+</div>
+
+<!-- SCRIPTS -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  M.AutoInit();
+
+  // Mapeo de categorías y sus rutas en GitHub
+  const categorias = {
+    movie: "movie",
+    accion: "accion",
+    aventura: "aventura",
+    cienciaficcion: "cienciaficcion",
+    fantasia: "fantasia"
+  };
+
+  // Recorremos cada categoría
+  Object.entries(categorias).forEach(([id, folder]) => {
+    const url = `https://raw.githubusercontent.com/Leoshin123/exp/main/Categorias/${folder}/index.html`;
+
+    fetch(url)
+      .then(response => response.text())
+      .then(html => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, "text/html");
+        const articulos = doc.querySelectorAll("article");
+        const ul = document.querySelector(`#busquedas-${id}`);
+
+        articulos.forEach(article => {
+          const enlace = article.querySelector("a");
+          const img = article.querySelector("img");
+
+          // Buscar título en el div correspondiente
+          let titulo = article.querySelector(".mt-2.font-semibold.text-sm.leading-tight.truncate");
+          let tituloTexto = titulo ? titulo.textContent.trim() : "";
+
+          // Si no hay título, buscar en los comentarios HTML
+          if (!tituloTexto) {
+            for (const node of article.childNodes) {
+              if (node.nodeType === Node.COMMENT_NODE && node.nodeValue.trim()) {
+                tituloTexto = node.nodeValue.trim();
+                break;
+              }
+            }
+          }
+
+          // Buscar año
+          const año = article.querySelector(".text-xs.text-white\\/70");
+          const añoTexto = año ? año.textContent.trim() : "";
+
+          // Agregar al listado
+          if (enlace && img) {
+            const li = document.createElement("li");
+            li.innerHTML = `
+              <a href="${enlace.href}" class="col s4 m3 l2">
+                <img src="${img.src}" alt="poster">
+                <span>${tituloTexto || "Sin título"} ${añoTexto}</span>
+              </a>
+            `;
+            ul.appendChild(li);
           }
         });
+      })
+      .catch(err => console.error("Error cargando", folder, err));
+  });
+});
 
-        contenedor.appendChild(seccion);
-        // Esperar un momento antes de inicializar cada carrusel
-        setTimeout(() => {
-          M.Carousel.init(carousel, {
-            fullWidth: false,
-            indicators: false,
-            numVisible: 5,
-            dist: -50,
-            padding: 10
-          });
-        }, 100);
-      });
+// Filtro de búsqueda
+function myFunction() {
+  var input = document.getElementById("buscar");
+  var filter = input.value.toUpperCase();
+  var allLists = document.querySelectorAll("ul[id^='busquedas']");
+  
+  allLists.forEach(ul => {
+    var li = ul.getElementsByTagName("li");
+    for (var i = 0; i < li.length; i++) {
+      var a = li[i].getElementsByTagName("a")[0];
+      var txtValue = a.textContent || a.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        li[i].style.display = "";
+        li[i].classList.add('animation');
+      } else {
+        li[i].style.display = "none";
+        li[i].classList.remove('animation');
+      }
     }
+  });
+}
+</script>
 
-    // Búsqueda
-    function buscarPeliculas() {
-      const filtro = document.getElementById('buscar').value.toUpperCase();
-      const secciones = document.querySelectorAll('.carousel-item a');
-      secciones.forEach(a => {
-        const txt = a.textContent.toUpperCase();
-        a.parentElement.style.display = txt.includes(filtro) ? '' : 'none';
-      });
-    }
-  </script>
+<!-- ESTILOS -->
+<style>
+.tabs .tab a:focus, .tabs .tab a:focus.active {background:none}
+.col img {width:100%;border-radius:5px;margin-bottom:5px}
+.padDrew {padding:10px 0;margin:50px 0}
+.sidenav li {transition:background ease .2s}
+.row .col {padding:0 5px}
+.each-category {padding:0 5px}
+.sidenav li>a {margin:0 10px;background:#212121;color:rgb(222,215,215);border-radius:3px;display:flex;align-items:center;gap:10px;padding:0 10px}
+#nav-mobile a.active-sidenav, .sidenav li>a.active-sidenav {background:rgba(60,128,85,.2);color:#20bf6b}
+#nav-mobile a {font-weight:600}
+.buscador {float:right;margin:0 18px;z-index:1}
+@media screen and (min-width:991px){nav .brand-logo{margin:0 10px}}
+@media only screen and (max-width:992px){nav .brand-logo{left:110px}}
+.tab a, .sidenav li a {font-weight:600}
+img.circle {border-radius:100%;overflow:hidden}
+.banner {display:flex;gap:10px;padding:10px;background:rgb(20,20,20)}
+.sidenav li {line-height:0}
+* {list-style-type:none}
+ul#nav-mobile {z-index:1;position:relative;margin-right:58px}
+.containerb {position:absolute;margin:auto;top:0;right:0;bottom:0;height:100px;width:100%}
+.containerb .search {position:absolute;margin:auto;top:0;right:0;bottom:0;width:50px;height:50px;background:crimson;border-radius:50%;transition:all 1s;z-index:4;box-shadow:0 0 25px 0 rgba(0,0,0,0.4)}
+.containerb .search:hover {cursor:pointer}
+.containerb .search::before {content:"";position:absolute;margin:auto;top:18px;right:0;bottom:0;left:17px;width:12px;height:2px;background:white;transform:rotate(45deg);transition:all .5s}
+.containerb .search::after {content:"";position:absolute;margin:auto;top:-5px;right:0;bottom:0;left:-5px;width:20px;height:20px;border-radius:50%;border:2px solid white;transition:all .5s}
+.containerb input {position:absolute;margin:auto!important;top:0;right:0;bottom:0;width:50px!important;height:50px!important;background:crimson;color:white;transition:all 0.7s!important;padding:0 5px 0 20px!important;opacity:0;z-index:5}
+.containerb input:hover {cursor:pointer}
+.containerb input:focus {width:100%!important;opacity:1;left:0;cursor:text;background:#4d4d4d;color:#e3e3e3}
+.containerb input:focus ~ .search {background:#151515;z-index:6}
+.containerb input:focus ~ .search::before {top:0;left:0;width:25px}
+.containerb input:focus ~ .search::after {top:0;left:0;width:25px;height:2px;border:none;background:white;border-radius:0%;transform:rotate(-45deg)}
+.containerb input::placeholder {color:white;opacity:0.5;font-weight:bolder}
+.each-category span {display:block;color:white;text-align:center;font-size:12px;margin-top:3px}
+</style>
+
 </body>
 </html>
